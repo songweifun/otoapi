@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => '101.201.103.106',
     // 数据库名
-    'database'        => 'bhyxs',
+    'database'        => 'subject_3.0_nannong',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'baohefan',
     // 密码
-    'password'        => 'admin888',
+    'password'        => 'swf@!(*&01',
     // 端口
     'hostport'        => '',
     // 连接dsn

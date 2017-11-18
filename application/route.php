@@ -53,3 +53,7 @@ Route::get('api/:version/order/paginate', 'api/:version.Order/getSummary');
 
 
 Route::post('api/:version/pay/pre_order','api/:version.Pay/getPreOrder');
+
+
+
+Route::post('api/:version/user/register','api/:version.User/register');
