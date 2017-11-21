@@ -11,13 +11,23 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\validate\UserNew;
+use think\Request;
 
 class User extends BaseController
 {
     public function register(){
         (new UserNew())->goCheck();
-        $postData=request()->post();
-        return json($postData);
+        //$postData=request()->post();
+
+        $phone=Request::instance()->post('phone','htmlspecialchars');
+
+
+
+
+
+
+
+        return $phone;
     }
 
 }

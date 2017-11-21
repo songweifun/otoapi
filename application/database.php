@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '101.201.103.106',
+    'hostname'        => 'localhost',
     // 数据库名
-    'database'        => 'subject_3.0_nannong',
+    'database'        => 'nannongbook',
     // 用户名
-    'username'        => 'baohefan',
+    'username'        => 'root',
     // 密码
-    'password'        => 'swf@!(*&01',
+    'password'        => 'admin888',
     // 端口
     'hostport'        => '',
     // 连接dsn
