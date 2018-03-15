@@ -12,6 +12,10 @@ namespace app\api\model;
 class UserAddress extends BaseModel
 {
     protected $hidden =['id', 'delete_time', 'user_id'];
+    protected $autoWriteTimestamp=true; //自动写入时间戳
+
+
+
 
 
 }

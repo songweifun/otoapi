@@ -16,6 +16,7 @@ class AppToken extends Token
 {
     public function get($ac, $se){
         $app = ThirdApp::check($ac, $se);
+        //print_r($app->toArray());die;
         if(!$app)
         {
             throw new TokenException([
@@ -24,11 +25,18 @@ class AppToken extends Token
             ]);
         }
         else{
-            $scope = $app->scope;
+            //$scope = $app->scope;
+            $scope = 32;
             $uid = $app->id;
+            //$uid = $app->id;
+            $sid = $app->library_id;
+            $hw_lib_code = $app->library_detail['hw_lib_code'];
+            //echo $hw_lib_code;die;
             $values = [
                 'scope' => $scope,
-                'uid' => $uid
+                'uid' => $uid,
+                'sid'=>$sid,
+                'hw_lib_code'=>$hw_lib_code,
             ];
             $token = $this->saveToCache($values);
             return $token;

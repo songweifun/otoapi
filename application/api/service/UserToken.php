@@ -37,40 +37,42 @@ class UserToken extends Token
         //生成令牌
         //组装缓存数据并且生成缓存  缓存 key 令牌 value wxresult &&uid &&scope
         //将令牌返回客户端
-        $result = curl_get($this->wxLoginUrl);
-        $wxResult=json_decode($result,true);
+        //$result = curl_get($this->wxLoginUrl);
+        //$wxResult=json_decode($result,true);
         //$wxResult=['openid'=>'111111'];
-        if(empty($wxResult)){
+        $result=UserModel::check($this->code);
+        if(empty($result)){
             //返回空
             throw new Exception('获取session_key及openID时异常，微信内部错误');
         }else{
             //放回非空但是有errcode
-            $loginFail = array_key_exists('errcode', $wxResult);
-            if ($loginFail) {
-                $this->processLoginError($wxResult);
-            }
-            else {
-                return $this->grantToken($wxResult);
-            }
+//            $loginFail = array_key_exists('errcode', $wxResult);
+//            if ($loginFail) {
+//                $this->processLoginError($wxResult);
+//            }
+//            else {
+//                return $this->grantToken($wxResult);
+//            }
+            return $this->grantToken($result);
         }
     }
 
     //生成令牌 同时写入 key为令牌 value为 wxresult && uid &&scope的缓存
-    private function grantToken($wxResult){
+    private function grantToken($result){
 
-        $openid = $wxResult['openid'];
-        $user = UserModel::getByOpenID($openid);
+        $id=$result['id'];
+        $user = UserModel::getById($id);
         if (!$user)
             // 借助微信的openid作为用户标识
             // 但在系统中的相关查询还是使用自己的uid
         {
-            $uid = $this->newUser($openid);
+            $uid = $this->newUser($result);
         }
         else {
             $uid = $user->id;
         }
         //value
-        $cacheValue=$this->prepareCachedValue($wxResult, $uid);
+        $cacheValue=$this->prepareCachedValue($result, $uid);
         $token = $this->saveToCache($cacheValue);
         return $token;
         //$key

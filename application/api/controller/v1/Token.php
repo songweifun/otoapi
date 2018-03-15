@@ -11,10 +11,13 @@ namespace app\api\controller\v1;
 
 use app\api\service\UserToken;
 use app\api\validate\AppTokenGet;
+use app\api\validate\CodeGet;
 use app\api\validate\TokenGet;
 use app\lib\exception\ParmeterException;
 use app\api\service\Token as TokenService;
 use app\api\service\AppToken as AppTokenService;
+use app\lib\exception\TokenException;
+use think\Exception;
 
 class Token
 {
@@ -62,6 +65,41 @@ class Token
         return json([
             'token' => $token
         ]);
+    }
+
+
+    public function getCheckCode($phone){
+        (new CodeGet())->goCheck();
+
+        $url=config('setting.code_url').$phone;
+        //return $url;
+
+        $result=curl_get($url);
+        //print_r($result);die;
+        //echo $result['state'];die;
+
+        $arr=array();
+        preg_match_all( '/\[state\] => ([0-9]+)[\s\r\n]+\[content\] => ([0-9]+)?/',$result, $arr );
+        //print_r($arr);die;
+
+        if($arr[1][0]==0){
+            throw new TokenException([
+                //"code"=>304,
+                'msg'=>"获取验证码过于频繁，请稍后!",
+                //"errorCode"=>10001
+            ]);
+        }else if($arr[1][0]==200){
+           cache($phone,$arr[2][0],config('setting.code_expire_in'));
+           return json(array('code'=>$arr[2][0]));
+
+
+        }
+
+        //return $result;
+
+
+
+
     }
 
 }
